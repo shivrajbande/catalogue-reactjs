@@ -1,4 +1,4 @@
-import {React,useContext,createContext} from "react";
+import { React, useContext, createContext } from "react";
 import { Typography, Box, Select, MenuItem, IconButton } from "@mui/material";
 import {
   Grid,
@@ -8,40 +8,27 @@ import {
   Divider,
   Button,
 } from "@mui/joy";
-import { Favorite, Star, StarBorder } from "@mui/icons-material";
+import { Favorite, Star, StarBorder, CurrencyRupee } from "@mui/icons-material";
 import RoundedButton from "../components/RoundedButton";
 import { useNavigate } from "react-router-dom";
-import {ProductContext} from "../contexts/products";
+import { ProductContext } from "../contexts/products";
+import getRatings from "../components/ProductRatings";
 
 export default function ProductCard() {
   const navigate = useNavigate();
-  const {items} = useContext(ProductContext);
+  const { items, cartList, setCartList, noOfItemsInCart, setNoOfItemsInCart } =
+    useContext(ProductContext);
+  const addProductToCart = (productId) => {
+    const productInfo = {
+      id: productId,
+      quantity: 1,
+    };
+    setNoOfItemsInCart(noOfItemsInCart + 1);
+    setCartList((cartList) => [...cartList, productInfo]);
 
-  const getRatings = (ratings) => {
-    let totalRatings = 0;
-    let weightedSum = 0;
-    for (let rate in ratings) {
-      totalRatings += ratings[rate];
-      weightedSum += rate * ratings[rate];
-    }
-    const averageRating = (weightedSum / totalRatings).toFixed(2);
-    const length = Math.round(averageRating);
-    const stars = [];
-
-    for (let i = 1; i <= 5; i++) {
-      if (i <= length) {
-        stars.push(<Star key={i} sx={{ color: "rgb(2, 48, 32)" }} />);
-      } else {
-        stars.push(<StarBorder key={i} sx={{ color: "grey" }} />);
-      }
-    }
-    return (
-      <Box display={"flex"}>
-        {stars}
-        <Typography>({totalRatings})</Typography>
-      </Box>
-    );
+    //add this in cart list
   };
+
   const handleClick = (item) => {
     navigate(`/productInfo/${item.productId}`);
   };
@@ -93,9 +80,16 @@ export default function ProductCard() {
                   <Typography fontSize={"16px"} fontWeight={600}>
                     {item.name}
                   </Typography>
-                  <Typography fontSize={"16px"} fontWeight={600}>
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    sx={{
+                      fontSize: "16px",
+                    }}
+                  >
+                    <CurrencyRupee sx={{ fontSize: "14px" }} />
                     {item.price}
-                  </Typography>
+                  </Box>
                 </Box>
                 <Typography
                   fontSize={"12px"}
@@ -111,7 +105,18 @@ export default function ProductCard() {
                 >
                   {getRatings(item.ratings)}
                 </Typography>
-                <RoundedButton name="Add to Cart" />
+                <RoundedButton
+                  name="Add to Cart"
+                  background="white"
+                  color="rgb(2, 48, 32)"
+                  size="small"
+                  width="85px"
+                  fontSize="10px"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addProductToCart(item.productId);
+                  }}
+                />
               </CardOverflow>
             </Card>
           </div>
