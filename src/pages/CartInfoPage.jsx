@@ -11,7 +11,7 @@ import {
 import { Card, CardOverflow } from "@mui/joy";
 
 import { useContext } from "react";
-import { ProductContext } from "../contexts/products";
+import { ProductContext } from "../contexts/ProductContext";
 import getRatings from "../components/ProductRatings";
 import { CurrencyRupee, Delete, WatchLater, Share } from "@mui/icons-material";
 import Dropdown from "../components/dropdown";
@@ -28,6 +28,8 @@ export default function CartInfoPage() {
     item['quantity'] = quantity;
     items.push(item);
   });
+
+
   var quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const getItemWithPrice = () => {
     var result = [];

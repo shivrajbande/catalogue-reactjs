@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
-import { ProductContext } from "../contexts/products";
+import { ProductContext } from "../contexts/ProductContext";
 import { Box, Divider, Typography } from "@mui/material";
 import Header from "../components/Header";
 import getRatings from "../components/ProductRatings";
 import RoundedButton from "../components/RoundedButton";
 import { Card } from "@mui/joy";
 import { LocalShipping, Replay, CurrencyRupee } from "@mui/icons-material";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductInfoPage() {
   // const item = props.
@@ -31,10 +33,12 @@ function ProductInfoPage() {
       id: productId,
       quantity: itemCount,
     };
-  
+
     // Check if the product already exists in the cart
-    const existingProduct = cartList.find((product) => product.id === productId);
-  
+    const existingProduct = cartList.find(
+      (product) => product.id === productId
+    );
+
     if (existingProduct) {
       // If the product exists, update its quantity
       updateCartProduct(productId, itemCount);
@@ -43,8 +47,22 @@ function ProductInfoPage() {
       setNoOfItemsInCart(noOfItemsInCart + 1);
       setCartList((cartList) => [...cartList, productInfo]);
     }
+    notify();
   };
-  
+
+  const notify = () =>
+    toast.success("Successfully added item to cart!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+
   const buyCurrentProduct = () => {
     //add this product in buy list
     const productInfo = {
@@ -57,22 +75,19 @@ function ProductInfoPage() {
     setItemCount((itemCount) => itemCount + 1);
     updateCartProduct(productId, itemCount + 1); // Update the cart with the new quantity
   };
-  
+
   const handleDec = () => {
     setItemCount((itemCount) => (itemCount > 0 ? itemCount - 1 : 0));
     if (itemCount > 0) {
       updateCartProduct(productId, itemCount - 1); // Update the cart with the new quantity
     }
   };
-  
-
 
   useEffect(() => {
     if (itemCount === 1) {
-      addProductToCart()
+      addProductToCart();
     }
   }, [itemCount]);
-
 
   const updateCartProduct = (productId, newQuantity) => {
     setCartList((cartList) => {
@@ -87,7 +102,6 @@ function ProductInfoPage() {
       });
     });
   };
-  
 
   return (
     <Box>
@@ -252,7 +266,21 @@ function ProductInfoPage() {
               size="medium"
               width="200px"
               fontSize="18px"
-              onClick={() => addProductToCart()}
+              onClick={() => {
+                addProductToCart();
+              }}
+            />
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss={false}
+              draggable
+              pauseOnHover={false}
+              theme="light"
             />
             <Box sx={{ marginRight: "30px" }}></Box>
             <RoundedButton

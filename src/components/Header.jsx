@@ -17,7 +17,7 @@ import {
   Person,
   ArrowDropDown,
 } from "@mui/icons-material";
-import { ProductContext } from "../contexts/products";
+import { ProductContext } from "../contexts/ProductContext";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "../components/dropdown";
 

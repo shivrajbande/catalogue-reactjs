@@ -284,7 +284,7 @@ export const ProductsProvide = ({ children }) => {
       }),
     },
   ]);
-  const ProductItems = [
+  const [ProductItems, setProductItems] = useState([
     {
       productId: "8746",
       name: "Boat Buds",
@@ -524,7 +524,7 @@ export const ProductsProvide = ({ children }) => {
         5: 10,
       }),
     },
-  ];
+  ]);
 
   const getItem = (productId) => {
     const product = items.filter((item) => item.productId === productId);
@@ -535,58 +535,144 @@ export const ProductsProvide = ({ children }) => {
   const [cartList, setCartList] = useState([]);
   const [buyList, setBuyList] = useState([]);
 
-  const sortItems = (sortType, value) => {
-    let newItems = items;
+  const [categoryType, setCategoryType] = useState("Categories");
+  const [priceType, setPriceType] = useState("All Prices");
+  const [ratingsType, setRatingType] = useState("All Ratings");
 
+  const sortItems = (sortType, value) => {
+    var num = -1;
+    if(ratingsType !== "All Ratings"){
+      const numericRating = ratingsType.slice(0, ratingsType.indexOf(" "));
+       num = Number(numericRating);
+    }
+    let newItems = items;
     switch (sortType) {
       case "Category":
-        if (value === "All Products") {
-          newItems = ProductItems;
+        if (value === "Categories") {
+          if (priceType !== "All Prices" && ratingsType !== "All Ratings") {
+            newItems = ProductItems.filter(
+              (item) =>
+                isPriceUnderRange(item.price, priceType) &&
+              item.overAllRating>=num
+            );
+          } else if (
+            priceType !== "All Prices" &&
+            ratingsType === "All Ratings"
+          ) {
+            newItems = ProductItems.filter((item) => 
+              isPriceUnderRange(item.price, priceType)
+            );
+          } else if (
+            priceType === "All Prices" &&
+            ratingsType !== "All Ratings"
+          ) {
+            newItems = ProductItems.filter((item) =>
+              item.overAllRating>=num
+            );
+          } else {
+            newItems = ProductItems;
+          }
         } else {
-          newItems = ProductItems.filter((item) => item.category === value);
+          newItems = ProductItems.filter(
+            (item) =>
+              item.category === value &&
+            item.overAllRating>=num &&
+              isPriceUnderRange(item.price, priceType)
+          );
         }
-        break; // Add break to prevent fall-through
+
+        break;
 
       case "Price":
-        if (value === "Price") {
-          newItems = ProductItems;
+        if (value === "All Prices") {
+          if (categoryType !== "Categories" && ratingsType !== "All Ratings") {
+            newItems = ProductItems.filter(
+              (item) =>
+                item.category === categoryType &&
+              item.overAllRating>=num
+            );
+          } else if (
+            categoryType !== "Categories" &&
+            ratingsType === "All Ratings"
+          ) {
+            newItems = ProductItems.filter(
+              (item) => item.category === categoryType
+            );
+          } else if (
+            categoryType === "Categories" &&
+            ratingsType !== "All Ratings"
+          ) {
+            newItems = ProductItems.filter((item) =>
+              item.overAllRating>=num
+            );
+          } else {
+            newItems = ProductItems;
+          }
         } else {
-          const matches = value.match(/\d+/g);
-
-          if (matches) {
+          if (value === "3000+") {
+            value = value.slice(0, -1);
+            const number = Number(value);
+            console.log(num,number,categoryType);
+            
+            newItems = ProductItems.filter(
+              (item) =>
+                (categoryType === "Categories" ||
+                item.category === categoryType) &&
+                  item.price >= number &&
+                  item.overAllRating>=num
+            );
+          } else {
+            const matches = value.match(/\d+/g);
             const num1 = Number(matches[0]);
             const num2 = Number(matches[1]);
-
             newItems = ProductItems.filter(
-              (product) => product.price >= num1 && product.price <= num2
-            ); // Example sorting by price
-          } else {
-            console.log("No numbers found in the string.");
+              (product) =>
+                (product.category !== "Categories" ||
+                  product.category === categoryType) &&
+                product.price >= num1 &&
+                product.price <= num2 &&
+                product.overAllRating >= num
+            );
           }
         }
         break; // Add break to prevent fall-through
 
-      case "Review":
-        if (value === "Review") {
-          newItems = ProductItems;
-        } else {
-          const numericRating = value.slice(0, value.indexOf(" "));
-
-          if (numericRating) {
-            const num = Number(numericRating);
-
+      case "Rating":
+        if (value === "All Ratings") {
+          if (categoryType !== "Categories" && priceType !== "All Prices") {
             newItems = ProductItems.filter(
-              (product) => product.overAllRating >= num
-            ); // Example sorting by price
+              (item) =>
+                item.category === categoryType &&
+                isPriceUnderRange(item.price, priceType)
+            );
+          } else if (
+            categoryType !== "Categories" &&
+            priceType === "All Prices"
+          ) {
+            newItems = ProductItems.filter(
+              (item) => item.category === categoryType
+            );
+          } else if (
+            categoryType === "Categories" &&
+            priceType !== "All Prices"
+          ) {
+            newItems = ProductItems.filter((item) =>
+              isPriceUnderRange(item.price, priceType)
+            );
           } else {
-            console.log("No numbers found in the string.");
+            newItems = ProductItems;
           }
+        } else {
+          newItems = ProductItems.filter(
+            (product) =>
+              (categoryType === "Categories" ||
+                product.category === categoryType) &&
+              isPriceUnderRange(product.price, priceType) &&
+              product.overAllRating >= num
+          ); // Example sorting by price
         }
         break;
-      default:
-        newItems = [...ProductItems]; // Reset to original items if no sort type matches
     }
-
     setItems(newItems); // Update state with new items
   };
 
@@ -601,6 +687,24 @@ export const ProductsProvide = ({ children }) => {
     }
   };
 
+  const isPriceUnderRange = (itemPrice, selectedPrice) => {
+    if (selectedPrice === "All Prices") {
+      return true;
+    }
+    if (selectedPrice === "3000+") {
+      selectedPrice = selectedPrice.slice(0, -1);
+    
+      return itemPrice >= selectedPrice;
+    } else {
+      const matches = selectedPrice.match(/\d+/g);
+      const num1 = Number(matches[0]);
+      const num2 = Number(matches[1]);
+      return itemPrice >= num1 && itemPrice <= num2;
+    }
+  };
+
+
+
   return (
     <ProductContext.Provider
       value={{
@@ -614,6 +718,12 @@ export const ProductsProvide = ({ children }) => {
         setBuyList,
         sortItems,
         searchProducts,
+        categoryType,
+        setCategoryType,
+        ratingsType,
+        setRatingType,
+        priceType,
+        setPriceType,
       }}
     >
       {children}

@@ -11,8 +11,10 @@ import {
 import { Favorite, Star, StarBorder, CurrencyRupee } from "@mui/icons-material";
 import RoundedButton from "../components/RoundedButton";
 import { useNavigate } from "react-router-dom";
-import { ProductContext } from "../contexts/products";
+import { ProductContext } from "../contexts/ProductContext";
 import getRatings from "../components/ProductRatings";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ProductCard() {
   const navigate = useNavigate();
@@ -25,9 +27,21 @@ export default function ProductCard() {
     };
     setNoOfItemsInCart(noOfItemsInCart + 1);
     setCartList((cartList) => [...cartList, productInfo]);
+    notify();
 
     //add this in cart list
   };
+  const notify = () => toast.success('Successfully added item to cart!', {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+    });
 
   const handleClick = (item) => {
     navigate(`/productInfo/${item.productId}`);
@@ -117,6 +131,18 @@ export default function ProductCard() {
                     addProductToCart(item.productId);
                   }}
                 />
+               <ToastContainer
+position="top-right"
+autoClose={2000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss={false}
+draggable
+pauseOnHover={false}
+theme="light"
+/>
               </CardOverflow>
             </Card>
           </div>

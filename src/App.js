@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProductInfoPage from "./pages/ProductInfoPage";
 import CartInfoPage from "./pages/CartInfoPage";
 import CheckoutPage from "./pages/CheckoutPage";
-import {ProductsProvide} from "./contexts/products";
+import {ProductsProvide} from "./contexts/ProductContext";
 
 function App() {
   return (
