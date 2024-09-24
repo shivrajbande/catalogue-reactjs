@@ -14,14 +14,15 @@ import { useContext } from "react";
 import { ProductContext } from "../contexts/ProductContext";
 import getRatings from "../components/ProductRatings";
 import { CurrencyRupee, Delete, WatchLater, Share } from "@mui/icons-material";
-import Dropdown from "../components/dropdown";
 import { useNavigate } from "react-router-dom";
 
 export default function CartInfoPage() {
-  const { cartList, getItem,setCartList, noOfItemsInCart,
-    setNoOfItemsInCart, } = useContext(ProductContext);
+  const { cartList, getItem,setCartList,
+    setNoOfItemsInCart,setTotalPrice } = useContext(ProductContext);
   const navigate = useNavigate();
   let items = [];
+  let totalPrice = 0;
+
   cartList.forEach((productObj) => {
     var item = getItem(productObj.id);
     var quantity = productObj.quantity;
@@ -33,7 +34,6 @@ export default function CartInfoPage() {
   var quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const getItemWithPrice = () => {
     var result = [];
-    let totalPrice = 0;
     items.map((item) => {
       totalPrice += parseInt(item.price, 10);
       result.push(
@@ -59,6 +59,7 @@ export default function CartInfoPage() {
         </Box>
       );
     });
+
     let temp = (
       <Box>
         {result}
@@ -72,17 +73,21 @@ export default function CartInfoPage() {
         </Box>
       </Box>
     );
+    
     return temp;
   };
 
   const navigateToBuy=()=>{
-    navigate("/checkout");
+    var productId = "32423-23434-1412124";
+    
+    setTotalPrice(totalPrice);
+    navigate(`/checkout/${productId}`);
   }
 
   const deleteThisItem=(productId)=>{
 
     setCartList((cartList)=>{
-      return cartList.filter(product=>product.id != productId);
+      return cartList.filter(product=>product.id !== productId);
     })
     setNoOfItemsInCart((noOfItemsInCart)=>noOfItemsInCart-1);
 

@@ -1,25 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Typography,
-  Autocomplete,
   TextField,
   Link,
   InputAdornment,
   Button,
   Badge,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import {
   ShoppingCart,
   Search,
   Person,
-  ArrowDropDown,
 } from "@mui/icons-material";
 import { ProductContext } from "../contexts/ProductContext";
 import { useNavigate } from "react-router-dom";
-import Dropdown from "../components/dropdown";
 
 function Header() {
   const categories = ["categorey", "Men", "Women", "Boys", "Girls"];
@@ -161,7 +156,6 @@ function Header() {
           alignItems: "center",
         }}
       >
-        <Person />
         <Button onClick={() => navigateToCart()}>
           <Badge
             badgeContent={noOfItemsInCart}

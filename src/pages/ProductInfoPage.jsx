@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useContext } from "react";
+import { Navigate, useParams,useNavigate } from "react-router-dom";
+import { useContext} from "react";
 import { ProductContext } from "../contexts/ProductContext";
 import { Box, Divider, Typography } from "@mui/material";
 import Header from "../components/Header";
@@ -11,12 +11,11 @@ import { LocalShipping, Replay, CurrencyRupee } from "@mui/icons-material";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 function ProductInfoPage() {
   // const item = props.
-
+  const navigate = useNavigate();
   const { productId } = useParams();
-  const [id, setProductId] = useState(productId);
-  const [currentItem, setcurrentItem] = useState({});
   const { getItem } = useContext(ProductContext);
   const item = getItem(productId);
   const {
@@ -24,8 +23,8 @@ function ProductInfoPage() {
     setNoOfItemsInCart,
     cartList,
     setCartList,
-    buyList,
     setBuyList,
+    setTotalPrice
   } = useContext(ProductContext);
   const [itemCount, setItemCount] = useState(0);
   const addProductToCart = () => {
@@ -70,6 +69,10 @@ function ProductInfoPage() {
       quantity: itemCount,
     };
     setBuyList((buyList) => [...buyList, productInfo]);
+    setTotalPrice(item.price);
+    let temp = "1241-2335-1234"
+    navigate(`/checkout/${temp}`);
+    
   };
   const handleInc = () => {
     setItemCount((itemCount) => itemCount + 1);
@@ -131,6 +134,7 @@ function ProductInfoPage() {
               src={item.images[0]}
               style={{ objectFit: "contain" }}
               height={"90%"}
+              alt="image1"
             />
           </Box>
           <Box
@@ -152,7 +156,7 @@ function ProductInfoPage() {
                 cursor: "pointer",
               }}
             >
-              <img src={item.images[1]} height={"90%"} width={"90%"} />
+              <img src={item.images[1]} height={"90%"} width={"90%"}   alt="image1" />
             </Box>
             <Box
               sx={{
@@ -166,7 +170,7 @@ function ProductInfoPage() {
                 cursor: "pointer",
               }}
             >
-              <img src={item.images[2]} height={"90%"} width={"90%"} />
+              <img src={item.images[2]} height={"90%"} width={"90%"}   alt="image1" />
             </Box>
             <Box
               sx={{
@@ -180,7 +184,7 @@ function ProductInfoPage() {
                 cursor: "pointer",
               }}
             >
-              <img src={item.images[3]} height={"90%"} width={"90%"} />
+              <img src={item.images[3]} height={"90%"} width={"90%"}   alt="image1" />
             </Box>
             <Box
               sx={{
@@ -194,7 +198,7 @@ function ProductInfoPage() {
                 cursor: "pointer",
               }}
             >
-              <img src={item.images[1]} height={"90%"} width={"90%"} />
+              <img src={item.images[1]} height={"90%"} width={"90%"}   alt="image1" />
             </Box>
           </Box>
         </Box>

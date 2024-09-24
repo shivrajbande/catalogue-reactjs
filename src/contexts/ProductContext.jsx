@@ -538,6 +538,7 @@ export const ProductsProvide = ({ children }) => {
   const [categoryType, setCategoryType] = useState("Categories");
   const [priceType, setPriceType] = useState("All Prices");
   const [ratingsType, setRatingType] = useState("All Ratings");
+  const [totalPrice,setTotalPrice] = useState(0);
 
   const sortItems = (sortType, value) => {
     var num = -1;
@@ -724,6 +725,8 @@ export const ProductsProvide = ({ children }) => {
         setRatingType,
         priceType,
         setPriceType,
+        totalPrice,
+        setTotalPrice
       }}
     >
       {children}

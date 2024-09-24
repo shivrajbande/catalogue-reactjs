@@ -4,6 +4,8 @@ import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { ProductContext } from "../contexts/ProductContext";
+import { useContext } from "react";
 
 const ads = [
   {
@@ -11,6 +13,7 @@ const ads = [
     title: "Iphone-15",
     subTitile: "Best selling Phone at low price",
     descript: `Grab up to 40% Off On Iphone-15`,
+    price : 78999,
     imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3yWQP7S48wca1QjRPEgT4OR5xa6ducRNDV6sQSHbtsVT9zOrIHOFO8lt_3lsiQZZ98a8&usqp=CAU",
   },
   {
@@ -18,34 +21,40 @@ const ads = [
     title: "Boat Earphones",
     subTitile: "Best selling Phone at low price",
     descript: `Grab up to 10% Off On Boat Earphones`,
+    price : 1399,
     imgSrc:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3yWQP7S48wca1QjRPEgT4OR5xa6ducRNDV6sQSHbtsVT9zOrIHOFO8lt_3lsiQZZ98a8&usqp=CAU",
+      "https://m.media-amazon.com/images/I/51yYK4RGtLL.jpg",
   },
   {
     id: 3,
-    title: "Apple iPhone",
-    subTitile: "Best selling Phone at low price",
-    descript: `Grab up to 80% Off On Apple iPhone`,
+    title: "Hp-2489",
+    subTitile: "Best Laptop at lowest price",
+    descript: `Grab up to 80% Off On Hp-Laptop`,
+    price : 49999,
     imgSrc:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3yWQP7S48wca1QjRPEgT4OR5xa6ducRNDV6sQSHbtsVT9zOrIHOFO8lt_3lsiQZZ98a8&usqp=CAU",
+      "https://m.media-amazon.com/images/I/61+r3+JstZL._AC_UF1000,1000_QL80_.jpg",
   },
 ];
 
 function AdComponent() {
   const navigate = useNavigate();
-  const navigateToBuy = () => {
-    navigate("/checkout");
+  const {setTotalPrice} = useContext(ProductContext);
+  const navigateToBuy = (itemPrice) => {
+
+   const productId = "5452-3442-1344";
+   setTotalPrice(itemPrice);
+    navigate(`/checkout/${productId}`);
   };
 
   // Slick carousel settings
   const settings = {
-    dots: true, // Show dots for navigation
-    infinite: true, // Infinite scrolling
-    speed: 500, // Transition speed
-    slidesToShow: 1, // Number of slides to show at once
-    slidesToScroll: 1, // Number of slides to scroll at once
-    autoplay: true, // Auto-scroll
-    autoplaySpeed: 3000, // Speed of auto-scroll
+    dots: true, 
+    infinite: true, 
+    speed: 500,
+    slidesToShow: 1, 
+    slidesToScroll: 1, 
+    autoplay: true,
+    autoplaySpeed: 3000, 
   };
 
   return (
@@ -62,13 +71,14 @@ function AdComponent() {
             sx={{
               display: "flex !important",
               alignItems: "center",
-              flexDirection: "row", // Align children in a row
+              flexDirection: "row", 
               padding: "10px",
-              justifyContent: "center", // Space between the elements
+              justifyContent: "center", 
               background: "#f5f5f5",
               borderRadius: "10px",
-              margin: "0 10px",
-              height: "300px", // Set height of the container
+               marginLeft :  "80px",
+               marginRight : "10px",
+              height: "300px", 
             }}
           >
             <Box
@@ -98,7 +108,7 @@ function AdComponent() {
                   },
                   background: "rgb(2, 48, 32)",
                 }}
-                onClick={navigateToBuy}
+                onClick={()=>navigateToBuy(ad.price)}
               >
                 Buy Now
               </Button>
@@ -119,7 +129,7 @@ function AdComponent() {
                 style={{
                   objectFit: "contain",
                   borderRadius: "6px",
-                  height: "100%", // Full height of the container
+                  height: "90%", // Full height of the container
                   width: "auto", // Maintain aspect ratio
                 }}
               />

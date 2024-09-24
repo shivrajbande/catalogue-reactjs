@@ -4,8 +4,14 @@ import { Box, Divider, Typography, TextField, Button } from "@mui/material";
 import { Card } from "@mui/joy";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import Tab from "@mui/material/Tab";
+import { CurrencyRupee } from "@mui/icons-material";
+import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { ProductContext } from "../contexts/ProductContext";
 
 export default function CheckoutPage() {
+
+  const {totalPrice}= useContext(ProductContext);
   const [value, setValue] = React.useState("1"); // Initial state matches one of the tab values
 
   const handleChange = (event, newValue) => {
@@ -23,11 +29,19 @@ export default function CheckoutPage() {
         alignItems={"center"}
       >
         <Card>
-          <Box sx={{ width: "100%",height : "50vh" }}>
+          <Box sx={{ width: "500px", height: "50vh",}}>
             <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
               <TabContext value={value}>
                 <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
                   <TabList
+                TabIndicatorProps={{
+                  sx: {
+                    backgroundColor: 'rgb(2, 48, 32)', // Custom indicator color
+                  },
+                }}
+                textColor="rgb(2, 48, 32)"
+                  sx={{width : "100%"}}
+
                     onChange={handleChange}
                     aria-label="lab API tabs example"
                   >
@@ -47,7 +61,7 @@ export default function CheckoutPage() {
                         <Typography>Expiry Date</Typography>
                         <TextField />
                       </Box>
-                      <Box>
+                      <Box >
                         <Typography>CVV</Typography>
                         <TextField />
                       </Box>
@@ -72,16 +86,22 @@ export default function CheckoutPage() {
                         }}
                         // onClick={() => {navigateToBuy()}}
                       >
-                        Proceed to Buy
+                        <Box display={"flex"} alignItems={"center"}>
+                          <Typography sx={{fontSize : "14px",marginRight : "10px"}}>Pay:</Typography>
+                          <CurrencyRupee sx={{ fontSize: "16px", margin : "0px" ,padding : "0px" }} />
+                          <Typography>{totalPrice}</Typography>
+                        </Box>
                       </Button>
                     </Box>
                   </Box>
                 </TabPanel>
+
                 <TabPanel value="2">
-                  <Box>
-                    <Box sx={{ marginBottom: "10px" }}>
-                      <Typography>Enter UPI ID</Typography>
+                  <Box sx ={{display : "flex",flexDirection : "column"}}>
+                    <Box sx={{ marginBottom: "10px",display : "flex",flexDirection : "column" }}>
+                      <Typography>Enter your UPI-ID</Typography>
                       <TextField fullWidth={true} />
+                   
                     </Box>
                     
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -104,27 +124,27 @@ export default function CheckoutPage() {
                         }}
                         // onClick={() => {navigateToBuy()}}
                       >
-                        Proceed to Buy
+                        <Box display={"flex"} alignItems={"center"}>
+                          <Typography sx={{fontSize : "14px",marginRight : "10px"}}>Pay:</Typography>
+                          <CurrencyRupee sx={{ fontSize: "16px", margin : "0px" ,padding : "0px" }} />
+                          <Typography>{totalPrice}</Typography>
+                        </Box>
                       </Button>
                     </Box>
                   </Box>
                 </TabPanel>
+
+
                 <TabPanel value="3">
                   <Box>
                     <Box sx={{ marginBottom: "10px" }}>
-                      <Typography>Card number</Typography>
+                      <Typography>Enter bank IFSC-Code</Typography>
                       <TextField fullWidth={true} />
                     </Box>
-                    <Box display={"flex"}>
-                      <Box sx={{ marginRight: "10px" }}>
-                        <Typography>Expiry Date</Typography>
-                        <TextField />
+                    <Box sx={{ marginRight: "10px" }}>
+                        <Typography>Enter Account Number</Typography>
+                        <TextField fullWidth={true} />
                       </Box>
-                      <Box>
-                        <Typography>CVV</Typography>
-                        <TextField />
-                      </Box>
-                    </Box>
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                       <Button
                         variant="outlined"
@@ -145,7 +165,11 @@ export default function CheckoutPage() {
                         }}
                         // onClick={() => {navigateToBuy()}}
                       >
-                        Proceed to Buy
+                        <Box display={"flex"} alignItems={"center"}>
+                          <Typography sx={{fontSize : "14px",marginRight : "10px"}}>Pay:</Typography>
+                          <CurrencyRupee sx={{ fontSize: "16px", margin : "0px" ,padding : "0px" }} />
+                          <Typography>{totalPrice}</Typography>
+                        </Box>
                       </Button>
                     </Box>
                   </Box>
