@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Typography, Box, IconButton, Grid } from "@mui/material";
+import { Typography, Box, IconButton, Grid,useMediaQuery } from "@mui/material";
 import { Card, CardOverflow } from "@mui/joy";
 import { CurrencyRupee } from "@mui/icons-material";
 import RoundedButton from "../components/RoundedButton";
@@ -13,6 +13,7 @@ export default function ProductCard() {
   const navigate = useNavigate();
   const { items, cartList, setCartList, noOfItemsInCart, setNoOfItemsInCart } =
     useContext(ProductContext);
+    const isMobile = useMediaQuery("(max-width:500px)");
 
   const addProductToCart = (productId) => {
     const productInfo = {
@@ -52,15 +53,15 @@ export default function ProductCard() {
       {items.map((item, index) => (
         <Grid item key={index}>
           <div onClick={() => handleClick(item)} style={{ cursor: "pointer" }}>
-            <Card orientation="vertical" sx={{ height: "300px", width: "200px" }}>
+            <Card orientation="vertical" sx={{ height: {xs: "250px",lg :"300px"}, width: {xs: "140px",lg :"200px"} }}>
               <CardOverflow>
                 <img
                   src={item.images[0]}
                   alt="image"
                   style={{
                     objectFit: "contain",
-                    height: "150px",
-                    width: "150px",
+                    height: {xs: "100px",lg:"100px"},
+                    width:  {xs: "100px",lg:"100px"},
                     padding: "20px",
                   }}
                 />
@@ -75,9 +76,10 @@ export default function ProductCard() {
                     {item.price}
                   </Box>
                 </Box>
-                <Typography fontSize={"12px"} fontWeight={500} sx={{ marginBottom: "6px" }}>
+                
+                {isMobile?<></>:<Typography fontSize={"12px"} fontWeight={500} sx={{ marginBottom: "6px" }}>
                   {item.shortDescript}
-                </Typography>
+                </Typography>}
                 <Typography fontSize={"16px"} fontWeight={600} sx={{ marginBottom: "14px" }}>
                   {getRatings(item.ratings)}
                 </Typography>

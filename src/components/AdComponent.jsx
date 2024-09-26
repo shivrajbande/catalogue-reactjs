@@ -13,24 +13,24 @@ const ads = [
     title: "Iphone-15",
     subTitile: "Best selling Phone at low price",
     descript: `Grab up to 40% Off On Iphone-15`,
-    price : 78999,
-    imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3yWQP7S48wca1QjRPEgT4OR5xa6ducRNDV6sQSHbtsVT9zOrIHOFO8lt_3lsiQZZ98a8&usqp=CAU",
+    price: 78999,
+    imgSrc:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3yWQP7S48wca1QjRPEgT4OR5xa6ducRNDV6sQSHbtsVT9zOrIHOFO8lt_3lsiQZZ98a8&usqp=CAU",
   },
   {
     id: 2,
     title: "Boat Earphones",
     subTitile: "Best selling Phone at low price",
     descript: `Grab up to 10% Off On Boat Earphones`,
-    price : 1399,
-    imgSrc:
-      "https://m.media-amazon.com/images/I/51yYK4RGtLL.jpg",
+    price: 1399,
+    imgSrc: "https://m.media-amazon.com/images/I/51yYK4RGtLL.jpg",
   },
   {
     id: 3,
     title: "Hp-2489",
     subTitile: "Best Laptop at lowest price",
     descript: `Grab up to 80% Off On Hp-Laptop`,
-    price : 49999,
+    price: 49999,
     imgSrc:
       "https://m.media-amazon.com/images/I/61+r3+JstZL._AC_UF1000,1000_QL80_.jpg",
   },
@@ -38,23 +38,22 @@ const ads = [
 
 function AdComponent() {
   const navigate = useNavigate();
-  const {setTotalPrice} = useContext(ProductContext);
+  const { setTotalPrice } = useContext(ProductContext);
   const navigateToBuy = (itemPrice) => {
-
-   const productId = "5452-3442-1344";
-   setTotalPrice(itemPrice);
+    const productId = "5452-3442-1344";
+    setTotalPrice(itemPrice);
     navigate(`/checkout/${productId}`);
   };
 
   // Slick carousel settings
   const settings = {
-    dots: true, 
-    infinite: true, 
+    dots: true,
+    infinite: true,
     speed: 500,
-    slidesToShow: 1, 
-    slidesToScroll: 1, 
+    slidesToShow: 1,
+    slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000, 
+    autoplaySpeed: 3000,
   };
 
   return (
@@ -71,14 +70,14 @@ function AdComponent() {
             sx={{
               display: "flex !important",
               alignItems: "center",
-              flexDirection: "row", 
+              flexDirection: "row",
               padding: "10px",
-              justifyContent: "center", 
+              justifyContent: "center",
               background: "#f5f5f5",
               borderRadius: "10px",
-               marginLeft :  "80px",
-               marginRight : "10px",
-              height: "300px", 
+              marginLeft: { lg: "80px", xs: "10px" },
+              marginRight: "10px",
+              height: { lg: "300px", xs: "200px" },
             }}
           >
             <Box
@@ -87,10 +86,12 @@ function AdComponent() {
                 padding: "10px", // Add padding to separate text from image
               }}
             >
-              <Typography variant="h5">
+              <Typography sx={{ fontSize: { xs: "16px", lg: "30px" } }}>
                 {ad.descript}
               </Typography>
-              <Typography >{ad.subTitile}</Typography>
+              <Typography sx={{ fontSize: { xs: "12px", lg: "30px" } }}>
+                {ad.subTitile}
+              </Typography>
               <Button
                 variant="outlined"
                 size={"medium"}
@@ -108,7 +109,7 @@ function AdComponent() {
                   },
                   background: "rgb(2, 48, 32)",
                 }}
-                onClick={()=>navigateToBuy(ad.price)}
+                onClick={() => navigateToBuy(ad.price)}
               >
                 Buy Now
               </Button>
@@ -119,8 +120,8 @@ function AdComponent() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                height: "100%", // Ensure it takes the full height of the container
-                width: "200px", // Set a fixed width for the image container
+                height: "100%",
+                width: { xs: "20px", lg: "200px" },
               }}
             >
               <img
@@ -129,8 +130,8 @@ function AdComponent() {
                 style={{
                   objectFit: "contain",
                   borderRadius: "6px",
-                  height: "90%", // Full height of the container
-                  width: "auto", // Maintain aspect ratio
+                  width: "80%", // Full height of the container
+                  height: "90%", // Maintain aspect ratio
                 }}
               />
             </Box>
