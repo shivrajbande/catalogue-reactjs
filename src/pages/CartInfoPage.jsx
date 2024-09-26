@@ -15,6 +15,7 @@ import { ProductContext } from "../contexts/ProductContext";
 import getRatings from "../components/ProductRatings";
 import { CurrencyRupee, Delete, WatchLater, Share } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer"
 
 export default function CartInfoPage() {
   const { cartList, getItem,setCartList,
@@ -96,7 +97,7 @@ export default function CartInfoPage() {
     <>
       <Header />
       <Divider sx={{ marginTop: "10px", marginBottom: "10px" }} />
-      <Box display={"flex"} height={"80vh"}>
+      <Box display={"flex"}>
         <Box
           flex={3}
           sx={{
@@ -305,6 +306,7 @@ export default function CartInfoPage() {
           </Card>
         </Box>
       </Box>
+      <Footer />
     </>
   );
 }

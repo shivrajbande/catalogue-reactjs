@@ -39,6 +39,7 @@ function Header() {
       sx={{
         display: "flex",
         justifyContent: "space-between",
+        padding : "0px 20px"
        
       }}
     >
@@ -54,8 +55,8 @@ function Header() {
         }}
       >
         <ShoppingCart />
-        <Typography variant="h6" sx={{ color: "green", fontWeight: "600" }}>
-          Pola
+        <Typography variant="h6" sx={{ color: "rgb(2, 48, 32)", fontWeight: "600" }}>
+        Vendoza
         </Typography>
       </div>
       {isMobile === true ? (

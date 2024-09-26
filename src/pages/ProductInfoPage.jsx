@@ -10,7 +10,7 @@ import { Card } from "@mui/joy";
 import { LocalShipping, Replay, CurrencyRupee } from "@mui/icons-material";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Footer from "../components/Footer"
 
 function ProductInfoPage() {
   // const item = props.
@@ -114,7 +114,6 @@ function ProductInfoPage() {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          height: "80vh",
           marginTop: "20px",
         }}
       >
@@ -323,6 +322,7 @@ function ProductInfoPage() {
           </Box>
         </Box>
       </Box>
+      <Footer />
     </Box>
   );
 }

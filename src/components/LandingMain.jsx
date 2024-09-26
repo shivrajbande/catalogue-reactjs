@@ -5,6 +5,7 @@ import Dropdown from "../components/dropdown";
 import ProductCard from "../components/ProductCard";
 import { ProductContext } from "../contexts/ProductContext";
 import { useContext } from "react";
+import Footer from "../components/Footer"
 
 function LandingMain() {
   const {
@@ -96,7 +97,7 @@ function LandingMain() {
   ];
 
   return (
-    <Box sx={{ margin: "30px 0px", background: "white", height: "100vh" }}>
+    <Box sx={{ margin: "30px 0px", background: "white", padding :"0px 40px" }}>
       <AdComponent />
       <Box
         sx={{

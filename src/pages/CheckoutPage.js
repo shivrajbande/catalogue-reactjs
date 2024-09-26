@@ -8,6 +8,7 @@ import { CurrencyRupee } from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { ProductContext } from "../contexts/ProductContext";
+import Footer from "../components/Footer"
 
 export default function CheckoutPage() {
 
@@ -179,6 +180,7 @@ export default function CheckoutPage() {
           </Box>
         </Card>
       </Box>
+      <Footer />
     </>
   );
 }
